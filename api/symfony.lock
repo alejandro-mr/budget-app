@@ -77,6 +77,9 @@
             "ref": "258300d52be6ad59b32a888d5ddafbf9638540ff"
         }
     },
+    "gesdinet/jwt-refresh-token-bundle": {
+        "version": "v0.4.0"
+    },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },

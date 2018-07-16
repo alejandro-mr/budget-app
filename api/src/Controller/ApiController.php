@@ -18,12 +18,6 @@ use App\Entity\User;
 class ApiController extends FOSRestController
 {
     /**
-     * @Route("/login_check", name="login_check")
-     */
-    public function loginCheckAction()
-    {}
-
-    /**
      * @Rest\Post("/register", name="user_register")
      */
     public function registerAction(
