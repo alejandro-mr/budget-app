@@ -1,0 +1,44 @@
+version: "3.6"
+
+services:
+  php:
+    build:
+      context: ./api
+      target: api_php
+    volumes:
+      - ./api:/srv/api:rw,cached
+    depends_on:
+      - db
+
+  api:
+    build:
+      context: ./api
+      target: api_nginx
+    depends_on:
+      - php
+    volumes:
+      - ./api/public:/srv/api/public:ro
+    ports:
+      - "8080:80"
+
+  client:
+    build: ./client
+    volumes:
+      - ./client:/app:rw,cached
+      - /app/node_modules
+    ports:
+      - "80:4200"
+    command: yarn start
+
+  db:
+    image: mariadb:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_USER: budget
+      MYSQL_PASSWORD: budget
+      MYSQL_DATABASE: budget
+    volumes:
+      - ./db-data:/var/lib/mysql:rw
+    ports:
+      - "3306:3306"
