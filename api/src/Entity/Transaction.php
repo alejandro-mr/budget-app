@@ -30,6 +30,14 @@ class Transaction
      * @ORM\Column(type="decimal", precision=10, scale=2)
      * @Assert\NotBlank()
      * @Assert\Type("numeric")
+     * @Assert\GreaterThan(
+     *     value = 0.01,
+     *     message = "Amount must be a positive value and greater than {{ compared_value }}",
+     * )
+     * @Assert\LessThanOrEqual(
+     *     value = 999999.99,
+     *     message = "WTH this application is not for millionaires."
+     * )
      */
     private $amount;
 

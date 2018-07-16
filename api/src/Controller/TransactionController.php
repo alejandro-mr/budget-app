@@ -10,6 +10,7 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use DateTime;
+use SplFileObject;
 
 use App\Entity\Transaction;
 
@@ -200,4 +201,84 @@ class TransactionController extends FOSRestController
 
          return new Response($serializer->serialize($response, 'json'));
      }
+
+    /**
+     * @Rest\Post("/transaction/import", name="transactions_import_file")
+     */
+    public function importAction(Request $request, ValidatorInterface $validator)
+    {
+        $serializer = $this->get('jms_serializer');
+        $user = $this->getUser();
+        $db = $this->getDoctrine()->getManager();
+
+        $code = 200;
+        $error = false;
+        $message = '';
+        $transactions = [];
+
+        //Type is being hardcoded to "Outcome/Expense"
+        $type = $db->getRepository('App:TransactionType')->findOneById(1);
+
+        $uploadedFile = $request->files->get('import');
+        $file = $uploadedFile->openFile('r');
+        $file->setFlags(SplFileObject::READ_CSV);
+
+        $rowCount = 0;
+        $batchSize = 20;
+
+        foreach ($file as $row) {
+            if (array(null) !== $row) {
+                if ($rowCount > 0) {
+                    list($concept, $amount, $transDate) = $row;
+
+                    $transaction = new Transaction();
+                    $transaction->setConcept($concept);
+                    $transaction->setAmount($amount);
+                    $transaction->setTransactionDate(DateTime::createFromFormat('m-d-Y H:i:s', $transDate));
+                    $transaction->setType($type);
+                    $transaction->setOwner($user);
+
+                    $errors = $validator->validate($transaction);
+
+                    if (count($errors) > 0) {
+                        $code = 500;
+                        $error = true;
+                        $message = (string) $errors;
+
+                        break;
+                    } else {
+                        try {
+                            $db->persist($transaction);
+                            array_push($transactions, $transaction);
+
+                            if (($rowCount % $batchSize) === 0) {
+                                $db->flush();
+                                $db->clear();
+                            }
+                        } catch (Exception $e) {
+                            $code = 500;
+                            $error = true;
+                            $message = 'An error occurred when trying to persist transactions';
+
+                            break;
+                        }
+                    }
+                }
+                $rowCount++;
+            }
+        }
+
+        if (!$error) {
+            $db->flush();
+            $db->clear();
+        }
+
+        $response = [
+            'code' => $code,
+            'error' => $error,
+            'data' => $code === 200 ? $transactions : $message,
+        ];
+
+        return new Response($serializer->serialize($response, 'json'));
+    }
 }
