@@ -1,0 +1,51 @@
+<div layout="column" class="md-inline-form" layout-fill role="main" ng-cloak>
+  <md-content layout-padding>
+    <div>
+      <form name="vm.userForm">
+        <h3 style="text-align: center">BudgetApp - Sign up</h3>
+        <md-input-container class="md-block">
+          <label>Username</label>
+          <input type="text" name="username" ng-model="vm.username" required>
+          <div ng-messages="vm.userForm.username.$error" ng-if="vm.userForm.$dirty" multiple md-auto-hide="false">
+            <div ng-message="required">
+              Username is required.
+            </div>
+          </div>
+        </md-input-container>
+        <md-input-container class="md-block">
+          <label>Password</label>
+          <input type="password" name="password" ng-model="vm.password" minlength="16" required>
+          <div ng-messages="vm.userForm.password.$error" ng-if="vm.userForm.$dirty" multiple md-auto-hide="false">
+            <div ng-message="required">
+              Password is required.
+            </div>
+            <div ng-message="minlength">
+              Passsword must be at least 16 char long.
+            </div>
+          </div>
+        </md-input-container>
+        <md-input-container class="md-block">
+          <label>Password</label>
+          <input type="password" name="confirmPass" ng-model="vm.confirmPass" minlength="16" required>
+          <div ng-messages="vm.userForm.confirmPass.$error" ng-if="vm.userForm.$dirty" multiple md-auto-hide="false">
+            <div ng-message="required">
+              Password confirmation is required.
+            </div>
+            <div ng-message="minlength">
+              Passsword must be at least 16 char long.
+            </div>
+          </div>
+        </md-input-container>
+        <div layout="column" layout="center center">
+          <span md-colors="{color: 'red-700'}" ng-if="vm.errorMessage">{{ vm.errorMessage }}</span>
+          <span md-colors="{color: 'green-700'}" ng-if="vm.successMessage">{{ vm.successMessage }}</span>
+        </div>
+        <div layout="column">
+          <md-button class="md-raised md-primary" ng-disabled="vm.registering || (vm.userForm.$dirty && vm.userForm.$invalid)" ng-click="vm.register()">
+            Sign up
+          </md-button>
+        </div>
+      </form>
+    </div>
+  </md-content>
+</div>

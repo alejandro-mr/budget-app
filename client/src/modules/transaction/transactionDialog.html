@@ -1,0 +1,24 @@
+<md-dialog aria-label="Transaction details">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>Transaction details</h2>
+      <span flex></span>
+      <md-button class="md-icon-button" ng-click="close()">
+        <md-icon aria-label="Close dialog">close</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+
+  <md-dialog-content>
+    <div class="md-dialog-content">
+      <p><span style="font-weight: 600">Concept:</span> {{concept}}</p>
+      <p><span style="font-weight: 600">Amount:</span> {{amount}}</p>
+      <p><span style="font-weight: 600">Date:</span> {{date | amDateFormat:'MMMM Do YYYY, H:mm:ss'}}</p>
+    </div>
+  </md-dialog-content>
+  <md-dialog-actions layout="row">
+    <md-button ng-click="close()">
+      Close
+    </md-button>
+  </md-dialog-actions>
+</md-dialog>

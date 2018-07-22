@@ -1,0 +1,43 @@
+<div layout="row" layout-padding class="md-inline-form" role="main" ng-cloak>
+  <div layout="column" layout-fill>
+  <md-content>
+    <form name="vm.userForm">
+      <h3 style="text-align: center">BudgetApp - Sign In</h3>
+      <md-input-container class="md-block">
+        <label>Username</label>
+        <input type="text" name="username" ng-model="vm.credentials.username" required>
+        <div ng-messages="vm.userForm.username.$error" ng-if="vm.userForm.$dirty" multiple md-auto-hide="false">
+          <div ng-message="required">
+            Username is required.
+          </div>
+        </div>
+      </md-input-container>
+      <md-input-container class="md-block">
+        <label>Password</label>
+        <input type="password" name="password" ng-model="vm.credentials.password" minlength="16" required>
+        <div ng-messages="vm.userForm.password.$error" ng-if="vm.userForm.$dirty" multiple md-auto-hide="false">
+          <div ng-message="required">
+            Password is required.
+          </div>
+          <div ng-message="minlength">
+            Passsword must be at least 16 char long.
+          </div>
+        </div>
+      </md-input-container>
+      <div layout="column" layout-align="center center">
+        <span md-colors="{color: 'red-700'}" ng-if="vm.loginMessage && vm.userForm.$pristine">{{ vm.loginMessage }}</span>
+        <span md-colors="{color: 'red-700'}" ng-if="vm.errorMessage">{{ vm.errorMessage }}</span>
+      </div>
+      <div layout="column">
+        <md-button class="md-raised md-primary" ng-disabled="vm.authenticating || (vm.userForm.$dirty && vm.userForm.$invalid)" ng-click="vm.login()">
+          Login
+        </md-button>
+        <md-divider></md-divider>
+        <md-button ui-sref="register" class="md-hue-1 md-primary">
+          Register
+        </md-button>
+      </div>
+    </form>
+  </md-content>
+  </div>
+</div>

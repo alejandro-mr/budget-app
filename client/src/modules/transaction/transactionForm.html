@@ -1,0 +1,54 @@
+<div flex layout-align="center">
+  <md-content layout-padding>
+    <form name="vm.createForm">
+      <md-input-container class="md-block">
+        <label>Concept:</label>
+        <input type="text" name="concept" ng-model="vm.transaction.concept" required />
+        <div ng-messages="vm.createForm.concept.$error" ng-if="vm.createForm.$dirty" multiple md-auto-hide="false">
+          <div ng-message="required">
+            Concept is required.
+          </div>
+        </div>
+      </md-input-container>
+      <md-input-container class="md-block">
+        <label>Amount:</label>
+        <input type="number" name="amount" ng-model="vm.transaction.amount"
+          min="0.1"
+          max="999999.99"
+          required />
+        <div ng-messages="vm.createForm.amount.$error" ng-if="vm.createForm.$dirty" multiple md-auto-hide="false">
+          <div ng-message="required">
+            Amount is required.
+          </div>
+          <div ng-message="min">
+            Your transaction must be at least $0.1 cents.
+          </div>
+          <div ng-message="max">
+            Transaction coulnd't be greater than $999999.99
+          </div>
+        </div>
+      </md-input-container>
+      <md-input-container>
+        <label>Date:</label>
+        <md-datepicker name="date" ng-model="vm.transaction.transaction_date" md-open-on-focus required></md-datepicker>
+        <div ng-messages="vm.createForm.date.$error" ng-if="vm.createForm.$dirty" multiple md-auto-hide="false">
+          <div ng-message="required">
+            Transaction date is required.
+          </div>
+        </div>
+      </md-input-container>
+    </form>
+  </md-content>
+</div>
+<div layout="row" layout-align="center center">
+  <span ng-if="vm.successMessage" md-colors="{color: 'green-700'}">{{ vm.successMessage }}</span>
+  <span ng-if="vm.errorMessage" md-colors="{color: 'red-700'}">{{ vm.errorMessage }}</span>
+</div>
+<div layout="row" layout-align="end center">
+  <md-button class="md-raised md-primary"
+    ng-disabled="vm.creating || vm.createForm.$pristine || (vm.createForm.$dirty && vm.createForm.$invalid)"
+    ng-click="vm.submit()"
+  >
+    Create
+  </md-button>
+</div>

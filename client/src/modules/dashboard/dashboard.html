@@ -1,0 +1,29 @@
+<md-content flex layout-padding>
+  <md-nav-bar
+    md-selected-nav-item="vm.currentNavItem"
+    nav-bar-aria-label="navigation links">
+    <md-nav-item md-nav-sref="dashboard.transactions" name="list">
+      Expenses
+    </md-nav-item>
+    <md-nav-item md-nav-sref="dashboard.create" name="create">
+      Create
+    </md-nav-item>
+    <md-nav-item md-nav-sref="dashboard.import" name="import">
+      Import
+    </md-nav-item>
+  </md-nav-bar>
+
+  <div ui-view></div>
+
+  <md-divider></md-divider>
+  <div layout="row" flex="nogrow" layout-align="space-between center">
+    <div layout="column">
+      <md-button class="md-primary md-hue-1" ng-disabled="vm.isImporting()" ng-click="vm.import()">Import CSV</md-button>
+    </div>
+    <div layout="column">
+      <md-button class="md-fab md-warn md-hue-2" aria-label="Profile" ng-disabled="vm.isCreating()" ng-click="vm.create()">
+        <md-icon md-font-library="material-icons">note_add</md-icon>
+      </md-button>
+    </div>
+  </div>
+</md-content>
