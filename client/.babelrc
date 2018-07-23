@@ -1,6 +1,7 @@
 {
   "presets": ["env"],
   "plugins": [
+    "angularjs-annotate",
     "transform-object-rest-spread"
   ]
 }

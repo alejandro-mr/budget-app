@@ -24,11 +24,9 @@ services:
   client:
     build: ./client
     volumes:
-      - ./client:/app:rw,cached
-      - /app/node_modules
+      - ./client:/app:ro
     ports:
-      - "80:4200"
-    command: yarn start
+      - "80:80"
 
   db:
     image: mariadb:latest
