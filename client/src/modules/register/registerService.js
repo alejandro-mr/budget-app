@@ -13,7 +13,6 @@ export default class RegisterService {
       password: password
     }, {skipAuthorization: true})
       .then(({ data }) => {
-        console.log(data);
         if (data.code === 200) {
           deferred.resolve({
             success: true,

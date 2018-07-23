@@ -1,5 +1,5 @@
 class RegisterController {
-  constructor(registerService, $state, $timeout) {
+  constructor(registerService, $state, $timeout, $mdToast) {
     this.username = '';
     this.password = '';
     this.confirmPass = '';
@@ -8,6 +8,7 @@ class RegisterController {
     this.registerService = registerService;
     this.$state = $state;
     this.$timeout = $timeout;
+    this.$mdToast = $mdToast;
   }
 
   register() {
@@ -21,10 +22,15 @@ class RegisterController {
         this.registerService.register(this.username, this.password)
           .then(({ success, message }) => {
             if (success) {
-              this.successMessage = `Your user ${message} has been correctly registered.`;
+              const successMessage = `Your user ${message} has been correctly registered.`;
+              this.$mdToast.show(
+                this.$mdToast.simple()
+                  .textContent(successMessage)
+                  .hideDelay(3000)
+              );
               this.$timeout((function() {
                 this.$state.go('login');
-              }).bind(this), 3000);
+              }).bind(this), 2000);
             }
           }, ({ error, message }) => {
             if (error) {
@@ -42,7 +48,7 @@ class RegisterController {
   }
 }
 
-RegisterController.$inject = ['registerService', '$state', '$timeout'];
+RegisterController.$inject = ['registerService', '$state', '$timeout', '$mdToast'];
 
 const register = {
   controller: RegisterController,

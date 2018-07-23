@@ -1,7 +1,7 @@
 <div flex class="transactions" transactions-table layout-align="center">
-  <div layout="row" layout-align="space-around" ng-if="!$ctrl.transactions">
+  <div layout="row" layout-align="space-around" ng-if="!vm.transactions">
     <md-progress-circular md-mode="indeterminate"></md-progress-circular>
   </div>
   <search></search>
-  <transactions-list transactions="$ctrl.transactions" />
+  <transactions-list transactions="vm.transactions"></transactions-list>
 </div>

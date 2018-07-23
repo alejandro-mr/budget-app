@@ -1,0 +1,5 @@
+<md-input-container class="md-block">
+  <label>Search ("spend", "12.00", "dd-mm-YYYY")</label>
+  <input ng-model="vm.searchTerm"
+    ng-keyup="$event.keyCode === 13 ? vm.search() : null">
+</md-input-container>

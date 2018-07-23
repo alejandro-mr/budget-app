@@ -7,12 +7,15 @@ export default class AuthService {
   }
 
   logout() {
+    const deferred = this.$q.defer();
     this.$window.sessionStorage.removeItem('budgetApp:token');
     this.$window.sessionStorage.removeItem('budgetApp:refreshToken');
+    deferred.resolve({success: true});
+    return deferred.promise;
   }
 
   authenticate(user, password) {
-    var deferred = this.$q.defer();
+    const deferred = this.$q.defer();
     this.$http.post('http://localhost:8080/api/login_check', {
       username: user,
       password: password

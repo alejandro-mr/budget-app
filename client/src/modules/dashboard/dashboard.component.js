@@ -1,6 +1,7 @@
 class DashboardController {
-  constructor($state) {
+  constructor($state, authService) {
     this.$state = $state;
+    this.authService = authService;
     this.currentNavItem = 'list';
 
     this.loading = true;
@@ -27,9 +28,15 @@ class DashboardController {
   setNavItem(name) {
     this.currentNavItem = name;
   }
+
+  logout() {
+    this.authService.logout().then(() => {
+      this.$state.go('login');
+    });
+  }
 }
 
-DashboardController.$inject = ['$state'];
+DashboardController.$inject = ['$state', 'authService'];
 
 const dashboard = {
   controller: DashboardController,

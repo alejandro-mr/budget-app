@@ -1,22 +1,22 @@
-<div flex layout-align="center center">
-  <md-content layout-padding>
-    <form name="vm.importForm">
-      <md-button class="md-fab" type="button" onclick="document.getElementById('fileUpload').click()">
-        <label for="fileUpload">
-          <md-icon>backup</md-icon>
-        </label>
-      </md-button>
-      <input id="fileUpload" name="import" type="file" style="display:none;" ng-model="vm.importFile" accept=".csv" required>
-      <div ng-messages="vm.importForm.import.$error" ng-if="vm.importForm.$dirty" multiple md-auto-hide="false">
-        <div ng-messages="required">
-          Please provide a CSV file to import.
-        </div>
+<md-content>
+  <form name="importForm" enctype="multipart/form-data">
+    <div layout="row" layout-align="center center">
+    <md-button class="md-fab" type="button" onclick="document.getElementById('fileUpload').click()">
+      <label for="fileUpload">
+        <md-icon>backup</md-icon>
+      </label>
+    </md-button>
+    <input id="fileUpload" name="import" type="file" style="display:none;" accept=".csv">
+    <div ng-messages="vm.importForm.import.$error" ng-if="vm.importForm.$dirty" multiple md-auto-hide="false">
+      <div ng-messages="required">
+        Please provide a CSV file to import.
       </div>
-      <div layout="column" layout-align="center center">
-        <md-button class="md-raised md-primary" ng-disabled="vm.uploading || (vm.importForm.$dirty && vm.importForm.$invalid)" ng-click="vm.upload()">
+    </div>
+    </div>
+      <div layout="column">
+        <md-button class="md-raised md-primary" ng-disabled="vm.uploading || (vm.importForm.$dirty && vm.importForm.$invalid) || vm.importForm.$pristine" ng-click="vm.upload()">
           Import
         </md-button>
       </div>
-    </form>
-  </md-content>
-</div>
+  </form>
+</md-content>

@@ -1,12 +1,3 @@
-/**
- * @ngdoc index
- * @name app
- * @description
- * # app
- *
- * Main module of the application.
- */
-
 import '../node_modules/angular-material/angular-material.css';
 
 import angular from 'angular';
@@ -30,6 +21,7 @@ import dashboard from './modules/dashboard';
 import login from './modules/login';
 import register from './modules/register';
 import transaction from './modules/transaction';
+import search from './modules/search';
 
 angular.module('BudgetApp', [
 	ngAria,
@@ -45,7 +37,8 @@ angular.module('BudgetApp', [
   dashboard,
   login,
   register,
-  transaction
+  transaction,
+  search
 ])
   .config(configure)
   .run(runBlock);

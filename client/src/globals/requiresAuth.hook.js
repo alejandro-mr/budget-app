@@ -1,12 +1,8 @@
 authHookRunBlock.$inject = ['$transitions', 'authService'];
 export function authHookRunBlock($transitions, AuthService) {
-  // Matches if the destination state's data property has a truthy 'requiresAuth' property
   let requiresAuthCriteria = {
-    to: (state) => state.data && state.data.requiresAuth
+    to: (state) => state.data && state.data.requiresLogin
   };
-
-  // Function that returns a redirect for the current transition to the login state
-  // if the user is not currently authenticated (according to the AuthService)
 
   let redirectToLogin = (transition) => {
     let AuthService = transition.injector().get('authService');
@@ -16,6 +12,5 @@ export function authHookRunBlock($transitions, AuthService) {
     }
   };
 
-  // Register the "requires auth" hook with the TransitionsService
   $transitions.onBefore(requiresAuthCriteria, redirectToLogin, {priority: 10});
 }

@@ -1,0 +1,34 @@
+<md-content>
+  <md-list class="md-dense" flex ng-cloak>
+    <md-subheader class="md-no-sticky">Transactions</md-subheader>
+    <div layout="row" layout-align="space-around end">
+      <span>
+        <md-icon ng-click="vm.setOrderBy('concept')">text_fields</md-icon>
+        <md-icon ng-show="vm.orderBy === 'concept' && vm.reverse">arrow_drop_up</md-icon>
+        <md-icon ng-show="vm.orderBy === 'concept' && !vm.reverse">arrow_drop_down</md-icon>
+      </span>
+      <span>
+        <md-icon ng-click="vm.setOrderBy('amount')">attach_money</md-icon>
+        <md-icon ng-show="vm.orderBy === 'amount' && vm.reverse">arrow_drop_up</md-icon>
+        <md-icon ng-show="vm.orderBy === 'amount' && !vm.reverse">arrow_drop_down</md-icon>
+      </span>
+      <span>
+        <md-icon ng-click="vm.setOrderBy('transaction_date')">date_range</md-icon>
+        <md-icon ng-show="vm.orderBy === 'transaction_date' && vm.reverse">arrow_drop_up</md-icon>
+        <md-icon ng-show="vm.orderBy === 'transaction_date' && !vm.reverse">arrow_drop_down</md-icon>
+      </span>
+    </div>
+    <md-divider />
+    <md-list-item ng-repeat="transaction in vm.transactions | orderBy: vm.orderBy:vm.reverse" class="md-3-line">
+      <div class="md-list-item-text" layout="column" ng-click="vm.showDetails(transaction, $event)">
+        <h3>{{ transaction.concept }}</h3>
+        <h4>${{ transaction.amount | number : 2}}</h4>
+        <p>{{ transaction.transaction_date | amDateFormat:'MMMM Do YYYY, H:mm:ss' }}</p>
+      </div>
+      <md-icon ng-click="vm.delete(transaction.id, $event)">delete</md-icon>
+    </md-list-item>
+    <md-list-item ng-if="vm.transactions.length < 1">
+      <p>No transactions found</p>
+    </md-list-item>
+  </md-list>
+</md-content>

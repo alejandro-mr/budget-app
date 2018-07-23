@@ -1,11 +1,3 @@
-/**
- * @ngdoc configuration file
- * @name app.config:config
- * @description
- * # Config and run block
- * Configutation of the app
- */
-
 export const configure = (
   $stateProvider, $urlRouterProvider, $locationProvider,
   $httpProvider, $windowProvider, jwtOptionsProvider,
