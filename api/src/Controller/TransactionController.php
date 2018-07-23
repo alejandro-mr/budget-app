@@ -220,52 +220,59 @@ class TransactionController extends FOSRestController
         $type = $db->getRepository('App:TransactionType')->findOneById(1);
 
         $uploadedFile = $request->files->get('import');
-        $file = $uploadedFile->openFile('r');
-        $file->setFlags(SplFileObject::READ_CSV);
 
-        $rowCount = 0;
-        $batchSize = 20;
+        if (!empty($uploadedFile)) {
+            $file = $uploadedFile->openFile('r');
+            $file->setFlags(SplFileObject::READ_CSV);
 
-        foreach ($file as $row) {
-            if (array(null) !== $row) {
-                if ($rowCount > 0) {
-                    list($concept, $amount, $transDate) = $row;
+            $rowCount = 0;
+            $batchSize = 20;
 
-                    $transaction = new Transaction();
-                    $transaction->setConcept($concept);
-                    $transaction->setAmount($amount);
-                    $transaction->setTransactionDate(DateTime::createFromFormat('m-d-Y H:i:s', $transDate));
-                    $transaction->setType($type);
-                    $transaction->setOwner($user);
+            foreach ($file as $row) {
+                if (array(null) !== $row) {
+                    if ($rowCount > 0) {
+                        list($concept, $amount, $transDate) = $row;
 
-                    $errors = $validator->validate($transaction);
+                        $transaction = new Transaction();
+                        $transaction->setConcept($concept);
+                        $transaction->setAmount($amount);
+                        $transaction->setTransactionDate(DateTime::createFromFormat('m-d-Y H:i:s', $transDate));
+                        $transaction->setType($type);
+                        $transaction->setOwner($user);
 
-                    if (count($errors) > 0) {
-                        $code = 500;
-                        $error = true;
-                        $message = (string) $errors;
+                        $errors = $validator->validate($transaction);
 
-                        break;
-                    } else {
-                        try {
-                            $db->persist($transaction);
-                            array_push($transactions, $transaction);
-
-                            if (($rowCount % $batchSize) === 0) {
-                                $db->flush();
-                                $db->clear();
-                            }
-                        } catch (Exception $e) {
+                        if (count($errors) > 0) {
                             $code = 500;
                             $error = true;
-                            $message = 'An error occurred when trying to persist transactions';
+                            $message = (string) $errors;
 
                             break;
+                        } else {
+                            try {
+                                $db->persist($transaction);
+                                array_push($transactions, $transaction);
+
+                                if (($rowCount % $batchSize) === 0) {
+                                    $db->flush();
+                                    $db->clear();
+                                }
+                            } catch (Exception $e) {
+                                $code = 500;
+                                $error = true;
+                                $message = 'An error occurred when trying to persist transactions';
+
+                                break;
+                            }
                         }
                     }
+                    $rowCount++;
                 }
-                $rowCount++;
             }
+        } else {
+            $code = 500;
+            $error = true;
+            $message = 'Please submit a valid file.';
         }
 
         if (!$error) {

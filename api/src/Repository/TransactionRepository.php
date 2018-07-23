@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Transaction;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use DateTime;
 
 /**
  * @method Transaction|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,34 +20,6 @@ class TransactionRepository extends ServiceEntityRepository
         parent::__construct($registry, Transaction::class);
     }
 
-//    /**
-//     * @return Transaction[] Returns an array of Transaction objects
-//     */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Transaction
-    {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
     /**
      * @return Transaction[]
      */
@@ -72,8 +45,21 @@ class TransactionRepository extends ServiceEntityRepository
             ->orderBy($orderBy, 'DESC');
 
         if (!empty($search)) {
-            $query->andWhere("t.concept LIKE :concept")
-                ->setParameter('concept', '%' . $search . '%');
+            if (is_numeric($search)) {
+                $query->andWhere('t.amount BETWEEN :amountFloor and :amountCeil')
+                    ->setParameter('amountFloor', floor($search))
+                    ->setParameter('amountCeil', ceil($search));
+            } else if ((bool)strtotime($search)) {
+                $dateQuery = new DateTime($search);
+
+                $query->andWhere('t.transactionDate > :dateStart')
+                    ->andWhere('t.transactionDate < :dateEnd')
+                    ->setParameter('dateStart', $dateQuery->format('Y-m-d 00:00:00'))
+                    ->setParameter('dateEnd', $dateQuery->format('Y-m-d 23:59:59'));
+            } else {
+                $query->andWhere('t.concept LIKE :concept')
+                    ->setParameter('concept', '%' . $search . '%');
+            }
         }
 
         return $query->getQuery()
