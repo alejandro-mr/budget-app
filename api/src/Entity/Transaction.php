@@ -50,7 +50,6 @@ class Transaction
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\TransactionType", inversedBy="transactions")
-     * @Serializer\Exclude
      * @Assert\NotBlank
      * @Assert\Valid
      */
