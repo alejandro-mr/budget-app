@@ -7,9 +7,9 @@ export default function routes($stateProvider) {
         requiresLogin: true
       },
       resolve: {
-        transactions: function(transactionService) {
-          return transactionService.getList();
-        }
+        transactions: ['transactionService', (transactionService) => (
+          transactionService.getList()
+        )]
       }
     })
     .state('dashboard.import',  {

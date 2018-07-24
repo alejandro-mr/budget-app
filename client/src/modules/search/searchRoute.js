@@ -7,9 +7,9 @@ export default function routes($stateProvider) {
       },
       component: 'searchResults',
       resolve: {
-        transactions: (transactionService, $transition$) => {
-          return transactionService.getList({q: $transition$.params().q});
-        }
+        transactions: ['transactionService', '$transition$', (transactionService, $transition$) => (
+          transactionService.getList({q: $transition$.params().q})
+        )]
       },
       data: {
         requiresLogin: true

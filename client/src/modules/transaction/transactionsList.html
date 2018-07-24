@@ -22,7 +22,7 @@
     <md-list-item ng-repeat="transaction in vm.transactions | orderBy: vm.orderBy:vm.reverse" class="md-3-line">
       <div class="md-list-item-text" layout="column" ng-click="vm.showDetails(transaction, $event)">
         <h3>{{ transaction.concept }}</h3>
-        <h4>${{ transaction.amount | number : 2}}</h4>
+        <h4 md-colors="{color: 'red-700'}">${{ transaction.amount | number : 2}}</h4>
         <p>{{ transaction.transaction_date | amDateFormat:'MMMM Do YYYY, H:mm:ss' }}</p>
       </div>
       <md-icon ng-click="vm.delete(transaction.id, $event)">delete</md-icon>
