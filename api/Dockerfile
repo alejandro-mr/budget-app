@@ -23,7 +23,8 @@ RUN composer install --prefer-dist --no-dev --no-autoloader --no-scripts --no-pr
 
 COPY . ./
 
-RUN composer dump-autoload --classmap-authoritative --no-dev;
+RUN composer dump-autoload --classmap-authoritative --no-dev
+RUN composer run-script --no-dev post-install-cmd
 RUN chmod +x bin/console
 COPY docker/entrypoint/docker-entypoint.sh /usr/local/bin/docker-entrypoint
 RUN chmod +x /usr/local/bin/docker-entrypoint

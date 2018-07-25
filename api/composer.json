@@ -11,6 +11,7 @@
         "lexik/jwt-authentication-bundle": "^2.5",
         "nelmio/cors-bundle": "^1.5",
         "sensio/framework-extra-bundle": "^5.2",
+        "sensiolabs/security-checker": "^4.1",
         "symfony/console": "^4.1",
         "symfony/flex": "^1.0",
         "symfony/framework-bundle": "^4.1",
@@ -20,7 +21,6 @@
         "symfony/yaml": "^4.1"
     },
     "require-dev": {
-        "sensiolabs/security-checker": "^4.1",
         "symfony/dotenv": "^4.1",
         "symfony/maker-bundle": "^1.5"
     },
