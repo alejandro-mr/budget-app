@@ -1,6 +1,6 @@
 FROM php:fpm-alpine as api_php
 
-RUN apk add --no-cache --virtual libzip-dev zlib-dev
+RUN apk add --no-cache --virtual libzip-dev zlib-dev mysql-client
 
 # Installing php extensions
 RUN docker-php-ext-configure zip --with-libzip
@@ -23,8 +23,6 @@ RUN composer install --prefer-dist --no-dev --no-autoloader --no-scripts --no-pr
 COPY . ./
 
 RUN chmod +x bin/console
-COPY docker/entrypoint/wait-for-it.sh /usr/local/bin/wait-for-it.sh
-RUN chmod +x /usr/local/bin/wait-for-it.sh
 COPY docker/entrypoint/docker-entypoint.sh /usr/local/bin/docker-entrypoint
 RUN chmod +x /usr/local/bin/docker-entrypoint
 
