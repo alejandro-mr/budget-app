@@ -1,11 +1,13 @@
 FROM php:fpm-alpine as api_php
 
-RUN apk add --no-cache --virtual libzip-dev zlib-dev mysql-client
+RUN apk add --no-cache mysql-client
+RUN apk add --no-cache --virtual php-build-deps libzip-dev zlib-dev
 
 # Installing php extensions
 RUN docker-php-ext-configure zip --with-libzip
 RUN docker-php-ext-install pdo_mysql zip
 
+RUN apk del php-build-deps
 # Copying composer binary from composer docker image.
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 ENV COMPOSER_ALLOW_SUPERUSER=1
