@@ -16,7 +16,9 @@ export default class AuthService {
 
   authenticate(user, password) {
     const deferred = this.$q.defer();
-    this.$http.post('http://localhost:8080/api/login_check', {
+    const LOGIN_URL = process.env.API_URL ? `${process.env.API_URL}/api/login_check` : 'http://localhost:8080/api/login_check';
+
+    this.$http.post(LOGIN_URL, {
       username: user,
       password: password
     }, {skipAuthorization: true}).then(({ data: { token, refresh_token }}) => {

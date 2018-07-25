@@ -24,7 +24,7 @@ from the project directory run:
 docker-compose up
 ```
 
-The project consist of three different services (running on docker containers), and everyone of them could be started on it's on:
+The project consist of three different services (running on docker containers), and everyone of them can be started separately:
 
 - `client` a AngularJS application running on `nginx:alpine` docker image, built with webpack, and ES6 support through babeljs.
   start command:

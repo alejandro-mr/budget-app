@@ -8,7 +8,9 @@ export default class RegisterService {
   register(username, password) {
     const deferred = this.$q.defer();
 
-    this.$http.post('http://localhost:8080/api/register', {
+    const REGISTER_URL = process.env.API_URL ? `${process.env.API_URL}/api/register` : 'http://localhost:8080/api/register';
+
+    this.$http.post(REGISTER_URL, {
       username: username,
       password: password
     }, {skipAuthorization: true})

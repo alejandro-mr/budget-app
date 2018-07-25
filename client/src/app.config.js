@@ -12,7 +12,9 @@ export const configure = (
 	$urlRouterProvider
 		.otherwise('/dashboard');
 
-  RestangularProvider.setBaseUrl('http://localhost:8080/api');
+  const BASE_URL = process.env.API_URL ? `${process.env.API_URL}/api` : 'http://localhost:8080/api';
+
+  RestangularProvider.setBaseUrl(BASE_URL);
   RestangularProvider.setResponseExtractor(function(response, operation) {
     if (response && (response.code === 200 || response.code === 201)) {
       return response.data;

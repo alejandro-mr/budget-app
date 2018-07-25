@@ -13,12 +13,20 @@ RUN composer global require "hirak/prestissimo:^0.3" --prefer-dist --no-progress
 
 WORKDIR /srv/api
 
+# build for production
+ARG APP_ENV=prod
+
 # Installing vendor libraries on running container.
 COPY composer.json composer.lock ./
 RUN composer install --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress --no-suggest; composer clear-cache
 
 COPY . ./
 
+RUN chmod +x bin/console
+COPY docker/entrypoint/docker-entypoint.sh /usr/local/bin/docker-entrypoint
+RUN chmod +x /usr/local/bin/docker-entrypoint
+
+ENTRYPOINT ["docker-entrypoint"]
 CMD ["php-fpm"]
 
 FROM nginx:alpine as api_nginx
