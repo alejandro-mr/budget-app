@@ -28,7 +28,6 @@ RUN chmod +x /usr/local/bin/wait-for-it.sh
 COPY docker/entrypoint/docker-entypoint.sh /usr/local/bin/docker-entrypoint
 RUN chmod +x /usr/local/bin/docker-entrypoint
 
-CMD ["/wait-for-it.sh", "db:3306", "--"]
 ENTRYPOINT ["docker-entrypoint"]
 CMD ["php-fpm"]
 
