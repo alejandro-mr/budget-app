@@ -24,11 +24,23 @@ from the project directory run:
 docker-compose up
 ```
 
-The project consist of three different services (running on docker containers):
+The project consist of three different services (running on docker containers), and everyone of them could be started on it's on:
 
 - `client` a AngularJS application running on `nginx:alpine` docker image, built with webpack, and ES6 support through babeljs.
+  start command:
+  ```bash
+  docker-compose up client
+  ```
 - `api` Symfony 4 based REST API, running on `nginx:alpine`, with a PHP processing through `php:fpm-alpine`.
-- `db-data` (Not included in repository) This directory is used to persist the DB data directory used by `mariadb:latest` running container.
+  start command:
+  ```bash
+  docker-compose up api
+  ```
+  - `db-data` (Not included in repository) This directory is used to persist the DB data directory used by `mariadb:latest` running container.
+  start command:
+  ```bash
+  docker-compose up db
+  ```
 
 ---
 
