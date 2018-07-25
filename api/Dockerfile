@@ -23,9 +23,12 @@ RUN composer install --prefer-dist --no-dev --no-autoloader --no-scripts --no-pr
 COPY . ./
 
 RUN chmod +x bin/console
+COPY docker/entrypoint/wait-for-it.sh /usr/local/bin/wait-for-it.sh
+RUN chmod +x /usr/local/bin/wait-for-it.sh
 COPY docker/entrypoint/docker-entypoint.sh /usr/local/bin/docker-entrypoint
 RUN chmod +x /usr/local/bin/docker-entrypoint
 
+CMD ["/wait-for-it.sh", "db:3306", "--"]
 ENTRYPOINT ["docker-entrypoint"]
 CMD ["php-fpm"]
 
