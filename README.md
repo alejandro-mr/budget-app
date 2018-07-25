@@ -36,7 +36,7 @@ The project consist of three different services (running on docker containers), 
   ```bash
   docker-compose up api
   ```
-  - `db-data` (Not included in repository) This directory is used to persist the DB data directory used by `mariadb:latest` running container.
+- `db-data` (Not included in repository) This directory is used to persist the DB data directory used by `mariadb:latest` running container.
   start command:
   ```bash
   docker-compose up db
@@ -46,7 +46,7 @@ The project consist of three different services (running on docker containers), 
 
 ## Technical details
 
-The client application will be bounded to port `80` of the host environemnt, and API will be on `8080`, mariadb will be running on port `3306`, those ports should be available as a prerequisitie, before starting the applications.
+The client application will be bounded to port `80` of the host environemnt, and API will be on `8080`, mariadb will be running on port `3306`, those ports should be available on the host environment, before starting the applications.
 
 Bases application requirements:
 
@@ -71,7 +71,7 @@ Bases application requirements:
   - lexik/jwt-authentication-bundle (JWT token generation from Doctrine User entity)
   - Docker images:
     - php:fpm-alpine (PHP files processing)
-    - doctrine:latets (Used to install dependencies at build time)
+    - doctrine:latest (Used to install dependencies at build time)
     - nginx:alpine (Server)
   - Ports:
     - 8080
