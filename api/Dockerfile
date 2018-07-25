@@ -7,6 +7,9 @@ RUN apk add --no-cache --virtual php-build-deps libzip-dev zlib-dev
 RUN docker-php-ext-configure zip --with-libzip
 RUN docker-php-ext-install pdo_mysql zip
 
+RUN runDeps="$(scanelf --needed --nobanner --format '%n#p' --recursive /usr/local/lib/php/extensions | tr ',' '\n' | sort -u | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }')" \
+apk add --no-cache --virtual .api-phpexts-rundeps $runDeps
+
 RUN apk del php-build-deps
 # Copying composer binary from composer docker image.
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
